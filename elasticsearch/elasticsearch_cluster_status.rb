@@ -19,7 +19,12 @@ class ElasticsearchClusterStatusPlugin < Scout::Plugin
     end
 
     base_url = "#{option(:elasticsearch_host)}:#{option(:elasticsearch_port)}/_cluster/health"
-    response = JSON.parse(Net::HTTP.get(URI.parse(base_url)))
+    uri = URI(base_url)
+    
+    req = Net::HTTP::Get.new(uri.request_uri)
+    req.basic_auth option(:basic_username), option(:basic_password) if !option(:basic_username).nil? && !option(:basic_password).nil?
+    res = Net::HTTP.start(uri.hostname, uri.port) {|http| http.request(req) }
+    response = JSON.parse(res.body)
 
     report(:status => response['status'])
     report(:number_of_nodes => response['number_of_nodes'])
