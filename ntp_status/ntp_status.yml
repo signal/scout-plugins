@@ -1,0 +1,14 @@
+metadata:
+  time_correct_ms:
+    units: "ms"
+    larger_is_better: "0"
+    delimiter: ","
+    precision: "0"
+    label: Time correct to within
+  polling_server_s:
+    units: "s"
+    larger_is_better: "0"
+    delimiter: ","
+    precision: "0"
+    label: Polling server every
+
