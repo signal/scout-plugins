@@ -1,8 +1,18 @@
-class PassengerRailsMemory < Scout::Plugin
+class PassengerAppMemory < Scout::Plugin
+  OPTIONS=<<-EOS
+  passenger_memory_stats_command:
+    name: The Passenger Memory Stats Command
+    notes: The full path to the passenger-memory-stats command.
+    default: /usr/bin/passenger-memory-stats
+  app_instance:
+    name: App Instance
+    notes: The app instance to monitor
+  EOS
+
   def build_report
     cmd  = option(:passenger_memory_stats_command) || "passenger-memory-stats"
-    @rails_instance = option(:rails_instance) || "tmb"
-    data = `#{cmd} | grep Rails | grep #{@rails_instance}`.to_a
+    @app_instance = option(:app_instance)
+    data = `#{cmd} | grep -E 'Rails|Rack' | grep #{@app_instance}`.to_a
     stats = parse_data(data)
     report(stats)
   end
