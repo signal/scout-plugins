@@ -1,4 +1,4 @@
-class MysqlExtraStats < Scout::Plugin
+class MysqlSortSelect < Scout::Plugin
   OPTIONS=<<-EOS
   user:
     name: MySQL username
@@ -38,23 +38,18 @@ class MysqlExtraStats < Scout::Plugin
     end
     result.free
 
-    counters = %w(Aborted_clients
-                  Opened_tables
-                  Threads_created
-                  Innodb_data_fsyncs
-                  Innodb_os_log_fsyncs
-                  Created_tmp_tables
-                  Created_tmp_disk_tables
+    counters = %w(Sort_merge_passes
+                  Sort_range
+                  Sort_rows
+                  Sort_scan
+                  Select_full_join
+                  Select_full_range_join
+                  Select_range
+                  Select_range_check
+                  Select_scan
                   )
     counters.each do |counter|
       counter(counter, mysql_status[counter], :per => :second)
-    end
-
-    gauges = %w(Threads_running
-                Threads_cached
-               )
-    gauges.each do |gauge|
-      report(gauge => mysql_status[gauge])
     end
   end
 
