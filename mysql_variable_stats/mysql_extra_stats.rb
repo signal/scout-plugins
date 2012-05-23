@@ -40,6 +40,8 @@ class MysqlExtraStats < Scout::Plugin
 
     counters = %w(Aborted_clients
                   Opened_tables
+                  Opened_table_definitions
+                  Opened_files
                   Threads_created
                   Innodb_data_fsyncs
                   Innodb_os_log_fsyncs
@@ -52,6 +54,9 @@ class MysqlExtraStats < Scout::Plugin
 
     gauges = %w(Threads_running
                 Threads_cached
+                Open_tables
+                Open_table_definitions
+                Open_files
                )
     gauges.each do |gauge|
       report(gauge => mysql_status[gauge])
