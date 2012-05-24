@@ -43,8 +43,6 @@ class MysqlExtraStats < Scout::Plugin
                   Opened_table_definitions
                   Opened_files
                   Threads_created
-                  Innodb_data_fsyncs
-                  Innodb_os_log_fsyncs
                   Created_tmp_tables
                   Created_tmp_disk_tables
                   )
